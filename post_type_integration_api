@@ -1,0 +1,49 @@
+// Register third-party integrations for Contentract (Template)
+add_action('init', function() {
+    // Optional: prevent running on AJAX or REST calls
+    if (wp_doing_ajax() || defined('REST_REQUEST')) {
+        return;
+    }
+
+    // Ensure the Contentract integration function exists
+    if (!function_exists('contentract_register_integration')) {
+        return;
+    }
+
+    /**
+     * SAMPLE INTEGRATION START
+     * Replace the following block with your own plugin or custom post type integration
+     */
+    if (class_exists('Your_Plugin_Class') || post_type_exists('your_custom_post_type')) {
+        contentract_register_integration('your_integration_key', [
+            'post_type' => 'your_custom_post_type',
+            'label' => __('Your Content Label', 'your-textdomain'),
+
+            // Optional: map external roles to Contentract-equivalent roles
+            'role_mapping' => [
+                'your_plugin_role_1' => 'editor',
+                'your_plugin_role_2' => 'author',
+                'your_plugin_role_3' => 'contributor',
+            ],
+
+            // Optional: specify which capabilities map to which Contentract role
+            'capabilities' => [
+                'editor' => ['edit_your_post_type', 'edit_others_your_post_type'],
+                'author' => ['edit_your_post_type'],
+                'contributor' => ['edit_your_post_type'],
+            ],
+
+            // Optional: custom settings or flags for more complex needs
+            'options' => [
+                'supports_notes' => true,
+                'track_signatures' => true,
+            ],
+        ]);
+
+        // Optional debug log
+        if (function_exists('sc_log')) {
+            sc_log('Your plugin integration registered: post_type=your_custom_post_type', 'info');
+        }
+    }
+    /** SAMPLE INTEGRATION END */
+}, 20);
